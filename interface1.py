@@ -2,7 +2,6 @@ import re
 from datetime import datetime
 
 
-# Проверка паспорта
 def input_passport():
     while True:
         passport = input("Введите паспорт (12 34-567890): ")
@@ -12,7 +11,6 @@ def input_passport():
         print("Ошибка! Неверный формат паспорта. Попробуйте ещё раз.")
 
 
-# Проверка имени
 def input_name():
     while True:
         name = input("Введите ФИО: ")
@@ -22,17 +20,14 @@ def input_name():
         print("Ошибка! Имя должно содержать только буквы и пробелы.")
 
 
-# Проверка даты рождения
 def input_birth_date():
     while True:
         date = input("Введите дату рождения (2006-03-02): ")
 
-        # Проверяем формат даты
         if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
             print("Ошибка! Дата должна быть в формате ГГГГ-ММ-ДД.")
             continue
 
-        # Проверяем, существует ли такая дата
         try:
             datetime.strptime(date, "%Y-%m-%d")
             return date
@@ -40,7 +35,6 @@ def input_birth_date():
             print("Ошибка! Такой даты не существует. Попробуйте ещё раз.")
 
 
-# Проверка телефона
 def input_phone():
     while True:
         phone = input("Введите телефон (+7(999) 123-45-67): ")
@@ -53,17 +47,28 @@ def input_phone():
         print("Ошибка! Неверный формат телефона.")
 
 
-# Проверка температуры
 def input_temperature():
     while True:
-        temperature = input("Введите температуру (36.60): ")
+        temperature = input("Введите температуру (36.6): ")
 
-        if re.fullmatch(r"\d{2}\.\d{2}", temperature):
+        if re.fullmatch(r"\d{2}\.\d{1}", temperature):
             return float(temperature)
-        print("Ошибка! Температура должна быть в формате XX.XX.")
+        print("Ошибка! Температура должна быть в формате XX.X.")
 
 
-# Основная программа
+def input_skin_color():
+    while True:
+        color = input("Введите цвет кожи в формате RGB (255,220,180): ")
+
+        if re.fullmatch(r"\d{1,3},\d{1,3},\d{1,3}", color):
+            values = color.split(",")
+
+            if all(0 <= int(value) <= 255 for value in values):
+                return color
+
+        print("Ошибка! Цвет должен быть в формате RGB, например 255,220,180.")
+
+
 print("Введите информацию о пациенте")
 print()
 
@@ -72,6 +77,7 @@ name = input_name()
 birth_date = input_birth_date()
 phone = input_phone()
 temperature = input_temperature()
+skin_color = input_skin_color()
 
 print()
 print("Информация о пациенте:")
@@ -80,3 +86,4 @@ print("ФИО:", name)
 print("Дата рождения:", birth_date)
 print("Телефон:", phone)
 print("Температура:", temperature)
+print("Цвет кожи (RGB):", skin_color)
